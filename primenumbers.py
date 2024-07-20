@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+
+
 def get_primes(n_max):
     nums = []
     sieve = [True] * (n_max + 1)
@@ -9,18 +11,49 @@ def get_primes(n_max):
             for i in range(p, n_max + 1, p):
                 sieve[i] = False
     return nums
-def get_multiples(n_max, number):
 
-def plot_num_polar(n_max):
-    global word
+
+def get_multiples(n_max, number):
+    nums = []
+    for i in range(1, n_max + 1):
+        if i % number == 0:
+            nums.append(i)
+    return nums
+
+
+def get_squares(n_max):
+    nums = []
+    for i in range(1, n_max + 1):
+        nums.append(i**2)
+    return nums
+
+
+def get_cubes(n_max):
+    nums = []
+    for i in range(1, n_max + 1):
+        nums.append(i**3)
+    return nums
+
+
+def plot_num_polar(n_max, word, number):
     if word.lower() == "prime" or word.lower() == "primes":
-        phrase = "Prime Numbers"
+        phrase = "prime numbers"
         nums = get_primes(n_max)
-        theta = np.deg2rad(nums)
-        r = np.array(nums)
-    
-    
-    
+    elif word.lower() == "multiple" or word.lower() == "multiples":
+        phrase = f"multiples of {number}"
+        nums = get_multiples(n_max, number)
+    elif word.lower() == "square" or word.lower() == "squares":
+        phrase = f"square numbers"
+        nums = get_squares(n_max)
+    elif word.lower() == "cube" or word.lower() == "cubes":
+        phrase = f"cube numbers"
+        nums = get_cubes(n_max)
+    else:
+        print("Invalid input. Please choose a valid option.")
+        return
+
+    theta = np.deg2rad(nums)
+    r = np.array(nums)
     fig, ax = plt.subplots(figsize=(8, 8), subplot_kw={'projection': 'polar'})
     ax.scatter(theta, r, s=2, c='k')
     ax.set_title(f"Polar Plot of {phrase} up to {n_max}")
@@ -35,8 +68,11 @@ def plot_num_polar(n_max):
     ax.grid(True)
     plt.show()
 
+
 word = input("What types of numbers would you like to plot? ")
-if word == "multiple" or word == "multiples":
-    number = input("Of?")
+if word.lower() == "multiple" or word.lower() == "multiples":
+    number = int(input("Of? "))
+else:
+    number = 0
 n_max = int(input("Up until? "))
-plot_num_polar(n_max)
+plot_num_polar(n_max, word, number)
